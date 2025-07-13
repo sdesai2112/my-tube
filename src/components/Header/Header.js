@@ -1,10 +1,12 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { toggleMenu } from "../../utils/store/slices/appSlice";
 import { API } from "../../utils/constants";
+import { cacheResults } from "../../utils/store/slices/searchSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
+  const searchStore = useSelector((store) => store.search);
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -13,7 +15,13 @@ const Header = () => {
     // Below is the implementation of Debouncing.
     // API Call will be made after 200ms.
     const timer = setTimeout(() => {
-      getSearchSuggestions();
+      if (searchStore[searchQuery]) {
+        console.log("Getting from Cache");
+        setShowSuggestions(searchStore[searchQuery]);
+      } else {
+        console.log("No Cache");
+        getSearchSuggestions();
+      }
     }, 200);
 
     // This below callback is only called when we are de-mounting the component.
@@ -28,6 +36,7 @@ const Header = () => {
 
     const json = await searchSuggestions.json();
     setSuggestions(json[1]);
+    dispatch(cacheResults({ [searchQuery]: json[1] }));
   };
 
   const handleToggleMenuHandler = () => {
