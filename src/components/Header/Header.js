@@ -28,7 +28,6 @@ const Header = () => {
 
     const json = await searchSuggestions.json();
     setSuggestions(json[1]);
-    // console.log(json[1]);
   };
 
   const handleToggleMenuHandler = () => {
@@ -65,7 +64,6 @@ const Header = () => {
             Search
           </button>
         </div>
-        {console.log(suggestions)}
         {suggestions.length > 0 && showSuggestions && (
           <div className="absolute bg-white py-2 px-2 w-[44rem] shadow-lg rounded-lg border border-gray-100">
             <ul>

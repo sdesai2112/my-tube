@@ -13,7 +13,6 @@ const VideoContainer = () => {
   const getVideos = async () => {
     const videos = await fetch(API.POPULAR_VIDEOS);
     const json = await videos.json();
-    console.log(json);
     setVideos(json.items);
   };
 
