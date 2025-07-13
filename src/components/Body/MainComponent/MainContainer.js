@@ -1,5 +1,5 @@
 const MainContainer = () => {
-  return <div>MainContainer</div>;
+  return <div className="col-span-11">MainContainer</div>;
 };
 
 export default MainContainer;
