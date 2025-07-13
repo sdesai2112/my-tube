@@ -1,9 +1,11 @@
-import logo from "./logo.svg";
+import Body from "./components/Body/Body";
+import Header from "./components/Header/Header";
 
 function App() {
   return (
-    <div className="font-bold">
-      <h1>My You Tube Project</h1>
+    <div>
+      <Header />
+      <Body />
     </div>
   );
 }
