@@ -25,6 +25,7 @@ const Header = () => {
       </div>
       <div className="col-span-1">
         <img
+          alt="User"
           className="h-8 mx-auto"
           src="https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png"
         />
