@@ -14,6 +14,7 @@ const VideoContainer = () => {
     const videos = await fetch(API.POPULAR_VIDEOS);
     const json = await videos.json();
     setVideos(json.items);
+    // console.log(json.items);
   };
 
   if (!videos?.length) return;
@@ -21,7 +22,15 @@ const VideoContainer = () => {
   return (
     <div className="flex flex-wrap">
       {videos?.map((video) => (
-        <Link key={video.id} to={"/watch?v=" + video.id}>
+        <Link
+          key={video.id}
+          to={
+            "/watch?v=" +
+            video.id +
+            "&liveContent=" +
+            video?.snippet?.liveBroadcastContent
+          }
+        >
           <VideoCard info={video} />
         </Link>
       ))}

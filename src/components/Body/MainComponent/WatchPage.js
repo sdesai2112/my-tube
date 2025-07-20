@@ -9,6 +9,9 @@ const WatchPage = () => {
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
 
+  console.log(searchParams.get("v"));
+  console.log(searchParams.get("liveContent"));
+
   useEffect(() => {
     dispatch(closeMenu());
   }, []);
@@ -26,9 +29,11 @@ const WatchPage = () => {
             referrerPolicy="strict-origin-when-cross-origin"
           ></iframe>
         </div>
-        <div className="w-full">
-          <LiveChat />
-        </div>
+        {searchParams.get("liveContent") !== "none" && (
+          <div className="w-full">
+            <LiveChat />
+          </div>
+        )}
       </div>
       <CommentsContainer />
     </div>
