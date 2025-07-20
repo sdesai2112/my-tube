@@ -12,9 +12,7 @@ const ButtonList = () => {
   const getVideoCategories = async () => {
     const videoCategoryDetails = await fetch(API.VIDEO_CATEGORIES);
     const json = await videoCategoryDetails.json();
-    console.log(json?.items);
     const categoryList = json?.items?.map((item) => item?.snippet?.title);
-    console.log(categoryList);
     setVideoCategories([...new Set(categoryList)]);
   };
 

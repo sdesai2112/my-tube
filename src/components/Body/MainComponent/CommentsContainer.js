@@ -1,52 +1,7 @@
-import React from "react";
-
-const commentsData = [
-  {
-    id: 1,
-    name: "Shraddha Desai",
-    text: "I am Learning Namaste React from Akshay Saini",
-    replies: [],
-  },
-  {
-    id: 2,
-    name: "Saee Desai",
-    text: "I am Learning Namaste React from Akshay Saini",
-    replies: [
-      {
-        id: 4,
-        name: "Akshay Saini",
-        text: "I am Teaching Namaste React",
-        replies: [
-          {
-            id: 5,
-            name: "Ashish Pawar",
-            text: "I am from USA.",
-            replies: [],
-          },
-          {
-            id: 6,
-            name: "Abhijeet Deshmukh",
-            text: "I am a Data Analyst.",
-            replies: [],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: 3,
-    name: "Shruti Desai",
-    text: "I am Learning Namaste React from Akshay Saini",
-    replies: [
-      {
-        id: 7,
-        name: "Satyam Raj",
-        text: "I am learning AI-ML.",
-        replies: [],
-      },
-    ],
-  },
-];
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { API } from "../../../utils/constants";
+import { addComments } from "../../../utils/store/slices/commentsSlice";
 
 const Comment = ({ name, text }) => {
   return (
@@ -67,11 +22,24 @@ const Comment = ({ name, text }) => {
 const CommentsList = ({ comments }) => {
   return (
     <div>
-      {comments.map((comment) => (
+      {comments?.map((comment) => (
         <div>
-          <Comment key={comment.id} name={comment.name} text={comment.text} />
+          <Comment
+            key={comment?.id}
+            name={
+              comment?.snippet?.topLevelComment?.snippet?.authorDisplayName ??
+              comment?.snippet?.authorDisplayName
+            }
+            text={
+              comment?.snippet?.topLevelComment?.snippet?.textDisplay ??
+              comment?.snippet?.textDisplay
+            }
+          />
           <div className="ml-4">
-            <CommentsList key={comment.id} comments={comment.replies} />
+            <CommentsList
+              key={comment?.id}
+              comments={comment?.replies?.comments}
+            />
           </div>
         </div>
       ))}
@@ -80,11 +48,33 @@ const CommentsList = ({ comments }) => {
 };
 
 const CommentsContainer = () => {
+  const videoData = useSelector((store) => store.videoDetails);
+  const commentsData = useSelector((store) => store.comments);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getComments();
+  }, []);
+
+  const getComments = async () => {
+    const commentsDetails = await fetch(
+      API.RETRIEVE_COMMENTS +
+        videoData?.id +
+        "&key=" +
+        process.env.REACT_APP_API_KEY
+    );
+    const json = await commentsDetails.json();
+    // console.log(json.items);
+    dispatch(addComments(json.items));
+  };
+
   return (
-    <div className="m-5 p-2">
-      <h1 className="font-bold text-2xl">Comments:</h1>
-      <CommentsList comments={commentsData} />
-    </div>
+    commentsData?.length > 0 && (
+      <div className="m-5 p-2">
+        <h1 className="font-bold text-2xl">Comments:</h1>
+        <CommentsList comments={commentsData} />
+      </div>
+    )
   );
 };
 

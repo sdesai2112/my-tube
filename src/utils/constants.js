@@ -7,6 +7,8 @@ export const API = {
   VIDEO_CATEGORIES:
     "https://www.googleapis.com/youtube/v3/videoCategories?part=snippet&regionCode=IN&key=" +
     process.env.REACT_APP_API_KEY,
+  RETRIEVE_COMMENTS:
+    "https://www.googleapis.com/youtube/v3/commentThreads?part=snippet,replies&videoId=",
 };
 
 export const LIVE_CHAT_COUNT = 20;
