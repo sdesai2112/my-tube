@@ -1,27 +1,31 @@
+import { useState, useEffect } from "react";
 import Button from "./Button";
+import { API } from "../../../utils/constants";
 
 const ButtonList = () => {
-  const buttonList = [
-    "All",
-    "Gaming",
-    "Sports",
-    "Movies",
-    "Cricket",
-    "Cooking",
-    "Mantras",
-    "Motivation",
-    "Gadget",
-    "Pop Music",
-    "Lessons",
-    "Guitar",
-  ];
+  const [videoCategories, setVideoCategories] = useState([]);
+
+  useEffect(() => {
+    getVideoCategories();
+  }, []);
+
+  const getVideoCategories = async () => {
+    const videoCategoryDetails = await fetch(API.VIDEO_CATEGORIES);
+    const json = await videoCategoryDetails.json();
+    console.log(json?.items);
+    const categoryList = json?.items?.map((item) => item?.snippet?.title);
+    console.log(categoryList);
+    setVideoCategories([...new Set(categoryList)]);
+  };
 
   return (
-    <div className="flex">
-      {buttonList.map((buttonName) => (
-        <Button key={buttonName} name={buttonName} />
-      ))}
-    </div>
+    videoCategories.length > 0 && (
+      <div className="flex">
+        {videoCategories.map((buttonName) => (
+          <Button key={buttonName} name={buttonName} />
+        ))}
+      </div>
+    )
   );
 };
 
