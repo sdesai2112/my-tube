@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { toggleMenu } from "../../utils/store/slices/appSlice";
 import { API } from "../../utils/constants";
 import { cacheResults } from "../../utils/store/slices/searchSlice";
+import { addDisplayVideos } from "../../utils/store/slices/displayVideosSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -41,17 +42,29 @@ const Header = () => {
     dispatch(toggleMenu());
   };
 
+  const getSearchVideos = async () => {
+    const searchSuggestions = await fetch(
+      API.SEARCH_VIDEO_LIST +
+        searchQuery +
+        "&key=" +
+        process.env.REACT_APP_API_KEY
+    );
+
+    const json = await searchSuggestions.json();
+    dispatch(addDisplayVideos(json?.items));
+  };
+
   return (
     <div className="grid grid-flow-col p-5 m-2 shadow-lg">
       <div className="flex col-span-1">
         <img
           onClick={handleToggleMenuHandler}
-          className="h-8 cursor-pointer"
+          className="h-8 cursor-pointer my-auto"
           alt="Menu"
           src="https://icons.veryicon.com/png/o/miscellaneous/linear-icon-45/hamburger-menu-4.png"
         />
         <img
-          className="h-8 mx-2"
+          className="h-12 mx-auto"
           alt="YouTube"
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWAHLE_HOsD6iFbpqtYy9hRMTwP9fYi3zEQ&s"
         />
@@ -64,7 +77,11 @@ const Header = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onFocus={() => setShowSuggestions(true)}
-            onBlur={() => setShowSuggestions(false)}
+            onBlur={() =>
+              setTimeout(() => {
+                setShowSuggestions(false);
+              }, 1000)
+            }
             className="w-3/4 border border-gray-400 p-2 rounded-l-full"
           />
           <button className="w-1/4 border border-gray-400 p-2 rounded-r-full bg-gray-100">
@@ -77,6 +94,10 @@ const Header = () => {
               {suggestions.map((suggestion) => (
                 <li
                   key={suggestion}
+                  onClick={() => {
+                    setSearchQuery(suggestion);
+                    getSearchVideos();
+                  }}
                   className="py-2 px-3 shadow-sm hover:bg-gray-100"
                 >
                   {suggestion}
@@ -89,7 +110,7 @@ const Header = () => {
       <div className="col-span-1">
         <img
           alt="User"
-          className="h-8 mx-auto"
+          className="h-12 mx-auto"
           src="https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png"
         />
       </div>
