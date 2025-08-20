@@ -9,6 +9,8 @@ export const API = {
     process.env.REACT_APP_API_KEY,
   RETRIEVE_COMMENTS:
     "https://www.googleapis.com/youtube/v3/commentThreads?part=snippet,replies&videoId=",
+  SEARCH_VIDEO_LIST:
+    "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=",
 };
 
 export const LIVE_CHAT_COUNT = 20;

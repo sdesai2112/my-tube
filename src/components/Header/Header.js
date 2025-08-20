@@ -16,10 +16,8 @@ const Header = () => {
     // API Call will be made after 200ms.
     const timer = setTimeout(() => {
       if (searchStore[searchQuery]) {
-        console.log("Getting from Cache");
         setShowSuggestions(searchStore[searchQuery]);
       } else {
-        console.log("No Cache");
         getSearchSuggestions();
       }
     }, 200);
