@@ -3,13 +3,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { API } from "../../../utils/constants";
 import { addComments } from "../../../utils/store/slices/commentsSlice";
 
-const Comment = ({ name, text }) => {
+const Comment = ({ name, text, image }) => {
   return (
     <div className="flex bg-gray-100 mt-2 pl-2 shadow-lg rounded-lg">
       <img
         alt="User"
-        className="h-8 w-8 my-auto"
-        src="https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png"
+        className="h-8 w-8 my-auto rounded-2xl"
+        src={image}
+        // src="https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png"
       />
       <div className="mx-2 py-2">
         <p className="font-bold">{name}</p>
@@ -34,8 +35,13 @@ const CommentsList = ({ comments }) => {
               comment?.snippet?.topLevelComment?.snippet?.textDisplay ??
               comment?.snippet?.textDisplay
             }
+            image={
+              comment?.snippet?.topLevelComment?.snippet
+                ?.authorProfileImageUrl ??
+              comment?.snippet?.authorProfileImageUrl
+            }
           />
-          <div className="ml-4">
+          <div className="ml-8">
             <CommentsList
               key={comment?.id}
               comments={comment?.replies?.comments}
@@ -64,7 +70,6 @@ const CommentsContainer = () => {
         process.env.REACT_APP_API_KEY
     );
     const json = await commentsDetails.json();
-    // console.log(json.items);
     dispatch(addComments(json.items));
   };
 
