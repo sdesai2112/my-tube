@@ -12,21 +12,23 @@ const SideBar = () => {
             <Link to={"/"}>Home</Link>
           </li>
           <li>Shorts</li>
-          <li>Videos</li>
+          <li>Subscriptions</li>
+        </ul>
+        <h1 className="font-bold pt-5">You</h1>
+        <ul>
+          <li>History</li>
+          <li>Playlist</li>
+          <li>Watch Later</li>
+          <li>Linked Videos</li>
+        </ul>
+        <h1 className="font-bold pt-5">Explore</h1>
+        <ul>
+          <li>Shopping</li>
+          <li>Music</li>
+          <li>Sports</li>
           <li>Live</li>
-        </ul>
-        <h1 className="font-bold pt-5">Subscriptions</h1>
-        <ul>
-          <li>Music</li>
-          <li>Sports</li>
           <li>Gaming</li>
-          <li>Movies</li>
-        </ul>
-        <h1 className="font-bold pt-5">Watch Later</h1>
-        <ul>
-          <li>Music</li>
-          <li>Sports</li>
-          <li>Gaming</li>
+          <li>News</li>
           <li>Movies</li>
         </ul>
       </div>
