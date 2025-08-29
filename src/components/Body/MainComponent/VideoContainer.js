@@ -39,12 +39,6 @@ const VideoContainer = () => {
             video?.snippet?.liveBroadcastContent
           }
         >
-          {console.log(
-            video?.id?.videoId ??
-              video?.id?.playlistId ??
-              video?.id?.channelId ??
-              video?.id
-          )}
           <VideoCard info={video} />
         </Link>
       ))}
